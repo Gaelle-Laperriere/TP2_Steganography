@@ -24,6 +24,13 @@ def ASCII_to_text(ascii):
     text_string = ''.join(text_array)
     return text_string
 
+def read_txt(filename):
+    ''' (String) -> String '''
+    file = open(filename, 'r')
+    text = file.read()
+    file.close()
+    return text
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Encrypt (write) or Decrypt (read) text in an image.')
     parser.add_argument('-w', '--writing_mode', action='store_true', help='Switch to writing mode.')
