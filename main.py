@@ -4,6 +4,12 @@ import sys
 import pypng.code.png as png
 import subprocess
 
+def xor(a, b):
+    ''' (String, String) -> String '''
+    if (a == '1' and b == '0') or (a == '0' and b == '1'):
+        return '1'
+    return '0'
+
 def text_to_ASCII(text):
     ''' (String) -> String '''
     ascii_array = [bin(ord(char))[2:].zfill(8) for char in text]  # Get binary ASCII for each character.
