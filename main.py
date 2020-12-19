@@ -4,6 +4,20 @@ import sys
 import pypng.code.png as png
 import subprocess
 
+def text_to_ASCII(text):
+    ''' (String) -> String '''
+    ascii_array = [bin(ord(char))[2:].zfill(8) for char in text]  # Get binary ASCII for each character.
+    ascii_string = ''.join(ascii_array)
+    ascii_string.join('00000000')  # Ending of the message (\0 in binary ASCII).
+    return ascii_string
+
+def ASCII_to_text(ascii):
+    ''' (String) -> String '''
+    ascii_array = [ascii[index:index+8] for index in range(0, len(ascii), 8)]  # Separate each ASCII characters.
+    text_array = [chr(int(char, 2)) for char in ascii_array]  # Get their integer value and decode them.
+    text_string = ''.join(text_array)
+    return text_string
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Encrypt (write) or Decrypt (read) text in an image.')
     parser.add_argument('-w', '--writing_mode', action='store_true', help='Switch to writing mode.')
