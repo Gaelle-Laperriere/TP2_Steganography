@@ -38,6 +38,24 @@ def read_png(filename):
     pixels_b2 = get_pixels_b2(list(pixels), width, height)
     return pixels_b2, width, height, info
 
+def get_pixels_b2(pixels_list, width, height):
+    ''' (list of int, int, int) -> array of bin '''
+    pixels_b2 = []
+    for i in range(0, height):
+        for j in range(0, width*4):
+            pixels_b2.append(bin(pixels_list[i][j])[2:].zfill(8))
+    return pixels_b2
+
+def get_pixels_b10(pixels_b2, width, height):
+    ''' (array of bin, int, int) -> matrix of int '''
+    pixels_b10 = []
+    for i in range(0, height):
+        row = []
+        for j in range(0, width*4):
+            row.append(int(pixels_b2[i*width*4+j], 2))
+        pixels_b10.append(row.copy())
+    return pixels_b10
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Encrypt (write) or Decrypt (read) text in an image.')
     parser.add_argument('-w', '--writing_mode', action='store_true', help='Switch to writing mode.')
