@@ -32,3 +32,13 @@ if __name__ == '__main__':
     text = args.text
     image_orig = args.image_orig
     image_dest = args.image_dest
+
+    # Check if the two image filenames are identical.
+    if image_dest == image_orig and write:
+        user_confirmation = ''
+        while True:
+            user_confirmation = input('Positionnal arguments image_orig and image_dest are equal. The original image will be overwritten. It is needed to decrypt the message afterward.\nWould you like to continue ? [yes] or [no] ')
+            if user_confirmation == 'no':
+                exit()
+            if user_confirmation == 'yes':
+                break
