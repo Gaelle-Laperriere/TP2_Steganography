@@ -31,6 +31,13 @@ def read_txt(filename):
     file.close()
     return text
 
+def read_png(filename):
+    ''' (String) -> list of int, int, int, dictionary '''
+    file = png.Reader(filename=filename)
+    width, height, pixels, info = file.asRGBA8()  # .asRGBA8() prevents too many scenarios.
+    pixels_b2 = get_pixels_b2(list(pixels), width, height)
+    return pixels_b2, width, height, info
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Encrypt (write) or Decrypt (read) text in an image.')
     parser.add_argument('-w', '--writing_mode', action='store_true', help='Switch to writing mode.')
@@ -55,3 +62,6 @@ if __name__ == '__main__':
                 exit()
             if user_confirmation == 'yes':
                 break
+
+    # Run the encryption / decryption
+    pixels_b2_orig, width, height, info = read_png(image_orig)
