@@ -44,6 +44,31 @@ def read_png(filename):
     pixels_b2 = get_pixels_b2(list(pixels), width, height)
     return pixels_b2, width, height, info
 
+def write_png(pixels_b2, width, height, info, filename):
+    ''' (matrix of int, int, int, dictionary, String) -> NoneType '''
+    pixels_b10 = get_pixels_b10(pixels_b2, width, height)  # We always need pixel's values at base 10 to write the image.
+    # Keep only the information usable by png.Writer.
+    info_used = [
+        'size',
+        'greyscale',
+        'alpha',
+        'bitdepth',
+        'transparent',
+        'background',
+        'gamma',
+        'compression',
+        'interlace',
+        'planes',
+        'colormap'
+    ]
+    info_keeped = {key: info[key] for key in info_used if key in info}
+    # Write in file.
+    writer = png.Writer(width, height, **info_keeped)
+    file = open(filename, 'wb')
+    writer.write(file, pixels_b10)
+    file.close()
+    return
+
 def get_pixels_b2(pixels_list, width, height):
     ''' (list of int, int, int) -> array of bin '''
     pixels_b2 = []
@@ -89,3 +114,15 @@ if __name__ == '__main__':
 
     # Run the encryption / decryption
     pixels_b2_orig, width, height, info = read_png(image_orig)
+
+    # Run the encryption / decryption
+    pixels_b2_orig, width, height, info = read_png(image_orig)
+    if write:
+    if filename is not None:
+    text = read_txt(filename)
+    elif text is None:
+    text = input('Please enter the message to encrypt: ')
+    write_message(text, pixels_b2_orig, width, height, info, image_dest)
+    else:
+    pixels_b2_dest, width, height, info = read_png(image_dest)
+    read_message(pixels_b2_orig, pixels_b2_dest, width, height)
