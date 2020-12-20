@@ -10,6 +10,33 @@ def xor(a, b):
         return '1'
     return '0'
 
+def write_message(text, pixels_b2, width, height, info, image_dest):
+    ''' (String, array of bin, int, int, dictionary, String) -> NoneType '''
+    if not(is_encryption_possible(text, width, height)):
+        sys.exit('Error: This image is too small to contain your message.')
+    ascii = text_to_ASCII(text)
+    # Encrypt the binary ASCII message in the binary pixels using XOR.
+    for index in range(len(ascii)):
+        code = list(pixels_b2[index])
+        code[7] = xor(code[7], ascii[index])
+        pixels_b2[index] = ''.join(code)
+    write_png(pixels_b2, width, height, info, image_dest)
+    return
+
+def read_message(pixels_b2_orig, pixels_b2_dest, width, height):
+    ''' (array of bin, array of bin, int, int) -> NoneType '''
+    ascii = ''
+    # Decrypt the binary ASCII message using XOR, by comparing images.
+    for index in range(len(pixels_b2_orig)):
+        ascii += xor(pixels_b2_orig[index][7], pixels_b2_dest[index][7])
+        # If we reached the end of the message (\0 in binary ASCII), end loop.
+        if index % 7 == 0 and index > 1 and ascii.endswith('00000000'):
+            break
+    text = ASCII_to_text(ascii)
+    print(text)
+    #subprocess.Popen("strings 'aaa'", stdout=subprocess.PIPE)
+    return
+
 def is_encryption_possible(text, width, height):
     ''' (String, int, int) -> Boolean '''
     if len(text)*8 > width*height*4:
@@ -114,15 +141,12 @@ if __name__ == '__main__':
 
     # Run the encryption / decryption
     pixels_b2_orig, width, height, info = read_png(image_orig)
-
-    # Run the encryption / decryption
-    pixels_b2_orig, width, height, info = read_png(image_orig)
     if write:
-    if filename is not None:
-    text = read_txt(filename)
-    elif text is None:
-    text = input('Please enter the message to encrypt: ')
-    write_message(text, pixels_b2_orig, width, height, info, image_dest)
+        if filename is not None:
+            text = read_txt(filename)
+        elif text is None:
+            text = input('Please enter the message to encrypt: ')
+        write_message(text, pixels_b2_orig, width, height, info, image_dest)
     else:
-    pixels_b2_dest, width, height, info = read_png(image_dest)
-    read_message(pixels_b2_orig, pixels_b2_dest, width, height)
+        pixels_b2_dest, width, height, info = read_png(image_dest)
+        read_message(pixels_b2_orig, pixels_b2_dest, width, height)
