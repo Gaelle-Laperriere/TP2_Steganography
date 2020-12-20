@@ -10,6 +10,12 @@ def xor(a, b):
         return '1'
     return '0'
 
+def is_encryption_possible(text, width, height):
+    ''' (String, int, int) -> Boolean '''
+    if len(text)*8 > width*height*4:
+        return False
+    return True
+
 def text_to_ASCII(text):
     ''' (String) -> String '''
     ascii_array = [bin(ord(char))[2:].zfill(8) for char in text]  # Get binary ASCII for each character.
