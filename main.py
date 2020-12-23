@@ -33,8 +33,9 @@ def read_message(pixels_b2_orig, pixels_b2_dest, width, height):
         if index % 7 == 0 and index > 1 and ascii.endswith('00000000'):
             break
     text = ASCII_to_text(ascii)
-    print(text)
-    #subprocess.Popen("strings 'aaa'", stdout=subprocess.PIPE)
+    ps = subprocess.Popen('strings', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    sys.stdout.write(text)
+    sys.stdout.close()
     return
 
 def is_encryption_possible(text, width, height):
@@ -139,7 +140,7 @@ if __name__ == '__main__':
             if user_confirmation == 'yes':
                 break
 
-    # Run the encryption / decryption
+    # Run the encryption / decryption.
     pixels_b2_orig, width, height, info = read_png(image_orig)
     if write:
         if filename is not None:
