@@ -37,7 +37,7 @@ The text to be inserted in the PNG file should be specified by one of the three 
 - if ``-f filename`` is specified, it will be read from the file filename.
 - If ``-t "text"`` is specified, it will be read from the command line.
 
-Please be carefull with the text written in the command line. Use simple quotes if special characters are used, for more security. The same way, you can use double quotes by adding a space between them and the message (``" text "``istead of ``"text"``). This problem is due to the Bash command line system, not the program nor the argparse module. If some specific characters are used without those securities, the command line might be badly interpreted by the system itself. 
+Please be carefull with the text written in the command line. Use simple quotes if special characters are used, for more security. The same way, you can use double quotes by adding a space between them and the message (``" text "`` instead of ``"text"``). This problem is due to the Bash command line system, not the program nor the argparse module. If some specific characters are used without those securities, the command line might be badly interpreted by the system itself. 
 
 Sanity checks are done before attempting to write. If the message is too long to fit in the image, the program will terminate with an error message. It is able to handle PNGs that have an alpha channel.
 
